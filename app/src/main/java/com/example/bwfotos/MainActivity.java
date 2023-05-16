@@ -23,14 +23,11 @@ import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity {
     private Button btFoto;
-    String[] PERMISSIONS = {Manifest.permission.}
     private FloatingActionButton fabGrayScale;
     private ImageView imageView;
     private static final int REQUEST_CODE_FOTO = 10000;
-    private Bitmap imageBitmap;
-
-
-    @Override
+    private com.example.apptirafoto.PermissionsMarshmallow permissionsMashmallow = new com.example.apptirafoto.PermissionsMarshmallow(this);
+    String[] PERMISSIONS = { Manifest.permission.WRITE_EXTERNAL_STORAGE};
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -44,7 +41,18 @@ public class MainActivity extends AppCompatActivity {
         fabGrayScale.setOnClickListener(f->{
             converterTonsCinza();
         });
+        CheckPermissionGranted();
     }
+
+    private void CheckPermissionGranted()
+    {    if (permissionsMashmallow.hasPermissions(PERMISSIONS)) {
+        //  permission granted
+    } else {
+        // request permission
+        permissionsMashmallow.requestPermissions(PERMISSIONS, 1);
+    }
+    }
+
     private void salvaFoto()
     {
         File file=getFilePublic("foto"+System.currentTimeMillis()+".jpg");
